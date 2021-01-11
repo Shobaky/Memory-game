@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<table id = "maintable"class ="center" bgcolor="#98FB98">
+  <tr id ="row1">
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card0">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card1">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+  </tr>
+  <tr id ="row1">
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+    <td>
+      <div id ="frame" class="frame" >
+
+        <img width ="150px" height="150px" src="card.png" id="card">
+
+      </div>
+    </td>
+  </tr>
+
+
+</table>
+<table class ="center" id ="myCards">
+</table>
+<script>
+ var mainTable = document.getElementById("maintable");
+  var url = new URL(window.location);
+  var diff = url.searchParams.get("diff");
+  var repeat = 0;
+  switch(diff){
+    case "med":
+    repeat = 4;
+    break;
+    case "hard":
+    repeat = 8;
+
+  }
+  for(var i = 0 ; i < repeat/4 ; i++){
+    console.log(repeat/4);
+    var row = mainTable.insertRow();
+      for(var j = 0 ; j <4 ;j++){
+        var data = row.insertCell();
+        var newDiv = document.createElement('div');
+        var cardImg = document.createElement("img");
+        cardImg.style.width ="150px";
+        cardImg.style.height ="150px";
+        cardImg.src ="card.png";
+        newDiv.setAttribute('class','frame');
+      newDiv.appendChild(cardImg);
+      data.appendChild(newDiv);
+}
+
+  }
+  var imgsSources = ["computer.png","homy.png","social.png","world.png","tissue.png","ballon.png",
+"hourse.png","wind.png"];
+  var indeces = [];
+  var Frames =document.getElementsByClassName("frame");
+  var interval=3000;
+  for(var i = 0 ; i <Frames.length;i++){
+    var cardImg = document.createElement("img");
+    cardImg.src = imgsSources[Math.trunc(i/2)];
+
+    cardImg.height = 0;
+    cardImg.width =0;
+
+    var index = Math.floor(Math.random() * (Frames.length));
+
+    while(indeces.includes(index)&&indeces.length!=Frames.length){
+
+        index = Math.floor(Math.random() * (Frames.length));
+    }
+    indeces.push(index);
+
+    Frames[index].appendChild(cardImg);
+
+
+    Frames[i].addEventListener('click',function rotate(){
+
+
+
+      var clickedFrames = document.getElementsByClassName("rotated-image");
+
+
+      if(clickedFrames.length>1){
+        console.log("You can't!Now i am angry");
+      }else{
+
+
+         this.children[1].setAttribute("class","smallone");
+
+         this.setAttribute("class","rotated-image");
+
+         const currFrame = this;
+
+         setTimeout(function (){
+
+           var clickedFrames = document.getElementsByClassName("rotated-image");
+           if(clickedFrames.length > 1){
+             if(clickedFrames[0].children[1].src==clickedFrames[1].children[1].src){
+
+               clickedFrames[0].children[1].setAttribute("class","smallone");
+               clickedFrames[1].children[1].setAttribute("class","smallone");
+               clickedFrames[1].setAttribute("class","");
+               clickedFrames[0].setAttribute("class","");
+               console.log("Got it");
+             }else{
+
+               currFrame.setAttribute("class","rotated-neg-image");
+               currFrame.children[1].setAttribute("class","inv");
+
+             }
+           }else if(currFrame.classList.contains('rotated-image')){
+
+             currFrame.setAttribute("class","rotated-neg-image");
+                currFrame.children[1].setAttribute("class","inv");
+           }
+         },interval);
+
+       }
+
+    },false);
+  }
+
+</script>
+<style>
+.rotated-image{
+  -webkit-transition:all 0.5s ease-in-out;
+  -webkit-transform:rotateY(180deg);
+  transform: rotateY(180deg);
+
+}
+.rotated-neg-image{
+
+  -webkit-transition:all 0.5s ease-in-out;
+  -webkit-transform:rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+.rotated-card{
+   top: 50px;
+  left:50px;
+  bottom:50px;
+  right:50px;
+
+  position:absolute;
+  -webkit-transition:all 0.5s ease-in-out;
+  -webkit-transform:rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.center{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom:auto;
+
+}
+div{
+    float: left;
+
+    position: relative;
+}
+
+img{
+     vertical-align: bottom;
+}
+.flipped{
+
+}
+.smallone{
+    width:50px;
+    height:50px;
+    top: 50px;
+    left:50px;
+    bottom:50px;
+    right:50px;
+
+    position:absolute;
+
+}
+.inv{
+  width:0px;
+  height:0px;
+}
+
+
+
+
+</style>
+</html>
