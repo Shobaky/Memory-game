@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<table id = "maintable"class ="center" bgcolor="#98FB98">
+<table id = "maintable"class ="center" >
   <tr id ="row1">
     <td>
-      <div id ="frame" class="frame" >
+      <div  id ="frame" class="frame" >
 
         <img width ="150px" height="150px" src="card.png" id="card0">
 
@@ -95,11 +95,13 @@
 }
 
   }
-  var imgsSources = ["computer.png","homy.png","social.png","world.png","tissue.png","ballon.png",
-"hourse.png","wind.png"];
+  var gotIt=0;
+  var imgsSources = ["arabian.png","sword.png","dates.png","lamp.png","pyramids.png","palm.png",
+"scorpion.png","camel.png"];
   var indeces = [];
-  var Frames =document.getElementsByClassName("frame");
+  const Frames =document.getElementsByClassName("frame");
   var interval=3000;
+   const framesLength =Frames.length;
   for(var i = 0 ; i <Frames.length;i++){
     var cardImg = document.createElement("img");
     cardImg.src = imgsSources[Math.trunc(i/2)];
@@ -116,25 +118,37 @@
     indeces.push(index);
 
     Frames[index].appendChild(cardImg);
-
-
+    Frames[i].id = i;
     Frames[i].addEventListener('click',function rotate(){
 
 
 
       var clickedFrames = document.getElementsByClassName("rotated-image");
 
-
-      if(clickedFrames.length>1){
+      if(clickedFrames.length>1||(!this.classList.contains("frame")&&!this.classList.contains("rotated-neg-image"))){
         console.log("You can't!Now i am angry");
       }else{
-
-
+        console.log(this.classList);
          this.children[1].setAttribute("class","smallone");
 
          this.setAttribute("class","rotated-image");
+         if(clickedFrames.length >1&&clickedFrames[0].children[1].src==clickedFrames[1].children[1].src){
+
+           clickedFrames[0].children[1].setAttribute("class","smallone");
+           clickedFrames[1].children[1].setAttribute("class","smallone");
+           clickedFrames[1].setAttribute("class","");
+           clickedFrames[0].setAttribute("class","");
+           console.log("Got it");
+           gotIt++;
+           if(gotIt==framesLength/2){
+             console.log("WOW");
+           }
+         }
+
 
          const currFrame = this;
+
+         console.log(framesLength);
 
          setTimeout(function (){
 
@@ -146,17 +160,25 @@
                clickedFrames[1].children[1].setAttribute("class","smallone");
                clickedFrames[1].setAttribute("class","");
                clickedFrames[0].setAttribute("class","");
+               gotIt++;
                console.log("Got it");
-             }else{
+               if(gotIt==framesLength/2){
+                 console.log("WOW");
+               }else{
+                 console.log(gotIt+"\\"+framesLength);
+               }
+             }else if(currFrame.classList.contains("rotated-image")) {
+
+
 
                currFrame.setAttribute("class","rotated-neg-image");
                currFrame.children[1].setAttribute("class","inv");
 
-             }
-           }else if(currFrame.classList.contains('rotated-image')){
 
+             }
+           }else if(currFrame.classList.contains("rotated-image")){
              currFrame.setAttribute("class","rotated-neg-image");
-                currFrame.children[1].setAttribute("class","inv");
+             currFrame.children[1].setAttribute("class","inv");
            }
          },interval);
 
@@ -167,6 +189,9 @@
 
 </script>
 <style>
+body{
+  background-image: url("night.jpg");
+}
 .rotated-image{
   -webkit-transition:all 0.5s ease-in-out;
   -webkit-transform:rotateY(180deg);
@@ -193,8 +218,10 @@
 .center{
   margin-left: auto;
   margin-right: auto;
-  margin-top: auto;
-  margin-bottom:auto;
+
+  top:50%
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
 
 }
 div{
@@ -213,10 +240,9 @@ img{
     width:50px;
     height:50px;
     top: 50px;
-    left:50px;
-    bottom:50px;
-    right:50px;
-
+   left:50px;
+   bottom:50px;
+   right:50px;
     position:absolute;
 
 }
